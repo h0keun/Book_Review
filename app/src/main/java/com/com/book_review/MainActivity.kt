@@ -3,11 +3,14 @@ package com.com.book_review
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
+import android.view.MotionEvent
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.com.book_review.adapter.BookAdapter
 import com.com.book_review.api.BookService
 import com.com.book_review.databinding.ActivityMainBinding
 import com.com.book_review.model.BestSellerDto
+import com.com.book_review.model.SearchBookDto
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,6 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var adapter: BookAdapter
+    private lateinit var bookService: BookService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,9 +35,9 @@ class MainActivity : AppCompatActivity() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-        val bookService = retrofit.create(BookService::class.java)
+        bookService = retrofit.create(BookService::class.java)
 
-        bookService.getBestSellerBooks("MY_API_KEY")
+        bookService.getBestSellerBooks(getString(R.string.interParkAPIKey))
                 .enqueue(object: Callback<BestSellerDto> {
 
                     override fun onResponse(call: Call<BestSellerDto>, response: Response<BestSellerDto>) {
@@ -57,9 +61,39 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 })
+
+        binding.searchEditText.setOnKeyListener {v, keyCode, event ->
+            if(keyCode == KeyEvent.KEYCODE_ENTER && event.action == MotionEvent.ACTION_DOWN){
+                search(binding.searchEditText.text.toString())
+                return@setOnKeyListener true
+            }
+
+            return@setOnKeyListener false
+        }
     }
 
-    fun initBookRecyclerView(){
+    private fun search(keyword: String) {
+
+        bookService.getBooksByName(getString(R.string.interParkAPIKey), keyword)
+            .enqueue(object: Callback<SearchBookDto> {
+
+                override fun onResponse(call: Call<SearchBookDto>, response: Response<SearchBookDto>) {
+                    // todo 성공처리
+
+                    if(response.isSuccessful.not()){
+                        return
+                    }
+                    adapter.submitList(response.body()?.books.orEmpty())
+                }
+
+                override fun onFailure(call: Call<SearchBookDto>, t: Throwable) {
+                    // todo 실패처리
+                }
+
+            })
+    }
+
+    private fun initBookRecyclerView(){
         adapter = BookAdapter()
         binding.bookRecyclerView.layoutManager = LinearLayoutManager(this)
         binding.bookRecyclerView.adapter = adapter
