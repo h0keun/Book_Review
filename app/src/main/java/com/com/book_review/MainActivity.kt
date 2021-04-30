@@ -39,11 +39,7 @@ class MainActivity : AppCompatActivity() {
         initHistoryRecyclerView()
         initSearchEditText()
 
-        db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java,
-            "BookSearchDB"
-        ).build()
+        db = getAppDatabase(this)
 
         val retrofit = Retrofit.Builder() // 인터페이스형식은 구현체가 아님(동작의 정의만 되어있는것) 따라서 이렇게 따로 구현체를 만들어주어야함
             .baseUrl("https://book.interpark.com")
