@@ -22,7 +22,7 @@
 
 
 ### [2021-07-08]
-#### manifests
+#### ◼ manifests
 + uses-permission 인터넷 권한 추가
  ```KOTLIN
  <uses-permission android:name="android.permission.INTERNET"/>
@@ -31,7 +31,7 @@
  ```KOTLIN
  <activity android:name =".DetailActivity"/>
  ```
-#### build.gradle
+#### ◼ build.gradle
 + viewbinding 사용
  ```KOTLIN
  buildFeatures {
@@ -46,7 +46,7 @@
  implementation 'androidx.room:room-runtime:2.2.6'
  kapt 'androidx.room:room-compiler:2.2.6'
  ```
-#### xml
+#### ◼ xml
 + drawable
  ```KOTLIN
  * 이미지 영역을 특정하기위한 백그라운드 이미지
@@ -79,7 +79,7 @@
  검색기록은 textView에 보여지고 검색기록 삭제는 위에서 지정한 vector 이미지를 버튼으로 두었다.
  ```
  
-#### kotlin.class
+#### ◼ kotlin.class
 ```KOTLIN
 📂 app ⁅
    📂 manifest
