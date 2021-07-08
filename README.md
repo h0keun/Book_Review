@@ -22,3 +22,36 @@
 
 
 <img src="https://user-images.githubusercontent.com/63087903/119836552-c93b9400-bf3c-11eb-9a10-471ec545e2dd.jpg" width="200" height="430"> <img src="https://user-images.githubusercontent.com/63087903/119836556-c9d42a80-bf3c-11eb-8609-390792e71cae.jpg" width="200" height="430"> <img src="https://user-images.githubusercontent.com/63087903/119836564-cb055780-bf3c-11eb-9973-6d129a92316f.jpg" width="200" height="430"> <img src="https://user-images.githubusercontent.com/63087903/119836560-ca6cc100-bf3c-11eb-856e-78bf61618f3d.jpg" width="200" height="430">
+
+
+### [2021-07-08]
+프로젝트 구성
+```KOTLIN
+📂 app ⁅
+   📂 manifest
+   📂 java ⁅
+      📂 com ⁅
+         📂 com ⁅
+            📂 book_review ⁅
+               📂 adapter
+                   ‣ BookAdapter
+                   ‣ HistoryAdapter
+               📂 api
+                   ‣ BookService
+               📂 dao
+                   ‣ HistoryDao
+                   ‣ ReviewDao
+               📂 model
+                   ‣ BestSellerDto
+                   ‣ Book
+                   ‣ History
+                   ‣ Review
+                   ‣ SearchBookDto
+               ‣ AppDatabse.kt
+               ‣ DetailActivity
+               ‣ MainActivity
+                  
+       ...                 
+                  
+```
+ 
