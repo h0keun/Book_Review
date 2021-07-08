@@ -56,7 +56,7 @@
  
  * 검색기록 삭제를 위한 vetor 이미지
  ```
-+ layout
++ layout  
  1.activity_main.xml  
  2.activity_detail.xml  
  3.item_book.xml  
