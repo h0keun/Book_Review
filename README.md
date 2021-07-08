@@ -54,24 +54,29 @@
  <stroke> width = 1dp, color = "@color/gray"  // 테두리의 굵기는 1dp, 색상은 회색
  <coners> radius = "16dp"   // 라운드한 코너
  
- * 검색기록 삭제를 위한 vetor 이미지
+ * 검색기록 삭제를 표시하는 vetor 이미지
  ```
 + layout  
- 1.activity_main.xml  
- 2.activity_detail.xml  
- 3.item_book.xml  
- 4.item_history.xml  
+ 1. activity_main.xml
+  ```KOTLIN
+  * 검색을 위한 EditText 1개와 북리스트들을 보여주는 recyclerView 1개 그리고 검색기록을 보여주는 recylcerView 1개가 존재
+  각 뷰들은 contraintlayout으로 배치 하였으며, 초기에는 검색창 아래에 북리스트들이 보여지는 형태이고,
+  검색창 클릭시에는 모션이벤트를 지정하여 검색기록 recylclerView가 화면을 덮는다.
+  ```
+ 3. activity_detail.xml  
  ```KOTLIN
- * activity_main
  
- 
- * activity_detail  
- 
- 
- * item_book  
- 
- 
- * item_history
+ ```
+ 4. item_book.xml
+  ```KOTLIN
+  * activity_main의 북리스트 recyclerView의 아이템
+  이 때 책의 이미지는 Glide를 통해 받아오고 테두리는 위에서 지정한 drawablelayout을 백그라운드로 두었다.
+  책의 제목과 간략한 내용은 textView에 입력되며 android:ellipsize="end" 를 통해 넘어가는 부분은 ... 으로 표시하였다.
+  ```
+ 5. item_history.xml  
+ ```KOTLIN
+ * activity_main의 검색기록 recyclerView의 아이템
+ 검색기록은 textView에 보여지고 검색기록 삭제는 위에서 지정한 vector 이미지를 버튼으로 두었다.
  ```
  
 #### kotlin.class
