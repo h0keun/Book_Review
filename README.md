@@ -21,7 +21,7 @@
 <img src="https://user-images.githubusercontent.com/63087903/119836552-c93b9400-bf3c-11eb-9a10-471ec545e2dd.jpg" width="200" height="430"> <img src="https://user-images.githubusercontent.com/63087903/119836556-c9d42a80-bf3c-11eb-8609-390792e71cae.jpg" width="200" height="430"> <img src="https://user-images.githubusercontent.com/63087903/119836564-cb055780-bf3c-11eb-9973-6d129a92316f.jpg" width="200" height="430"> <img src="https://user-images.githubusercontent.com/63087903/119836560-ca6cc100-bf3c-11eb-856e-78bf61618f3d.jpg" width="200" height="430">
 
 
-### [2021-07-08]
+### [2021-07-??]
 #### ◼ manifests
 + uses-permission 인터넷 권한 추가
  ```KOTLIN
@@ -65,7 +65,8 @@
   ```
  3. activity_detail.xml  
  ```KOTLIN
- 
+ * 북리스트의 아이템을 클릭하였을때 해당 아이템의 상세정보(도서이미지, 설명)를 띄워주며, 리뷰를 남길 수 있다.
+ * 이 때, 작성한 리뷰는 RommDB를 통해 저장하게된다.
  ```
  4. item_book.xml
   ```KOTLIN
@@ -105,6 +106,4 @@
                ‣ DetailActivity
                ‣ MainActivity            
 ```
-
-
-💡 어댑터 확실히 알기, 리사이클러뷰 확실히 알기, retrofit, glide 심화공부, 한글깨짐현상 해결하기
+💡 들어가기전 RecyclerView, Room, Retrofit, Glide에 대해 정리하자면 다음과 같다.
