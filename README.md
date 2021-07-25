@@ -85,9 +85,9 @@
 RecyclerView, RoomDB, Retrofit, Glide
 ```
 + RecyclerView [📌](https://developer.android.com/guide/topics/ui/layout/recyclerview?hl=ko)
-+ Retrofit [git.io 📌](https://square.github.io/retrofit/), [📌](https://github.com/square/retrofit)
-+ Glide [git.io 📌](https://bumptech.github.io/glide/), [📌](https://github.com/bumptech/glide)
-+ [이전에 진행한 프로젝트에서 정리한 RoomDB 🥕](https://github.com/h0keun/Calculator)
++ Retrofit [📌](https://square.github.io/retrofit/), [📌](https://github.com/square/retrofit)
++ Glide [📌](https://bumptech.github.io/glide/), [📌](https://github.com/bumptech/glide)
++ 이전에 진행한 프로젝트에서 정리한 RoomDB [🥕](https://github.com/h0keun/Calculator)
 + RoomDB migration [📌](https://developer.android.com/training/data-storage/room/migrating-db-versions?hl=ko)
 
 #### ◼ kotlin.class
