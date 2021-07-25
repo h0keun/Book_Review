@@ -5,8 +5,8 @@
 + View Binding
 + Retrofit [🧷](https://square.github.io/retrofit/)
 + Glide
-+ RoomDB
-+ Open API
++ RoomDB (migration)
++ Open API [인터파크 도서 - 북피니언](http://book.interpark.com/blog/bookpinion/bookpinionOpenAPIInfo.rdo)
  
 ### 구현기능
 + 인터파크 Open API를 통해 베스트셀러 정보를 가져와서 RecyclerView 화면에 그린다.
@@ -15,13 +15,13 @@
 + RoomDB를 이용해 리뷰를 남기고 저장한다.
 
 ### Postman
-크롬 웹스토어 확장기능중에 Postman 이라고있는데 api반환 결과값을 쉽게 보여주는 기능을 제공한다. 
+크롬 웹스토어 확장기능중에 Postman 이라고있는데 api반환 결과값을 쉽게 보여주는 기능을 제공한다. 이를 통해 간단하기 API가 정상 동작하는지 미리 확인이 가능하다.  
 
-
+### 스크린샷  
 <img src="https://user-images.githubusercontent.com/63087903/119836552-c93b9400-bf3c-11eb-9a10-471ec545e2dd.jpg" width="200" height="430"> <img src="https://user-images.githubusercontent.com/63087903/119836556-c9d42a80-bf3c-11eb-8609-390792e71cae.jpg" width="200" height="430"> <img src="https://user-images.githubusercontent.com/63087903/119836564-cb055780-bf3c-11eb-9973-6d129a92316f.jpg" width="200" height="430"> <img src="https://user-images.githubusercontent.com/63087903/119836560-ca6cc100-bf3c-11eb-856e-78bf61618f3d.jpg" width="200" height="430">
 
-
-### [2021-07-??]
+### [2021-07-09]
+### [2021-07-26]
 #### ◼ manifests
 + uses-permission 인터넷 권한 추가
  ```KOTLIN
@@ -80,6 +80,16 @@
  검색기록은 textView에 보여지고 검색기록 삭제는 위에서 지정한 vector 이미지를 버튼으로 두었다.
  ```
  
+#### 사전지식 간략정리
+```KOTLIN 
+RecyclerView, RoomDB, Retrofit, Glide
+```
++ RecyclerView [📌](https://developer.android.com/guide/topics/ui/layout/recyclerview?hl=ko)
++ Retrofit [git.io 📌](https://square.github.io/retrofit/), [📌](https://github.com/square/retrofit)
++ Glide [git.io 📌](https://bumptech.github.io/glide/), [📌](https://github.com/bumptech/glide)
++ [이전에 진행한 프로젝트에서 정리한 RoomDB 🥕](https://github.com/h0keun/Calculator)
++ RoomDB migration [📌](https://developer.android.com/training/data-storage/room/migrating-db-versions?hl=ko)
+
 #### ◼ kotlin.class
 ```KOTLIN
 📂 app ⁅
@@ -106,4 +116,3 @@
                ‣ DetailActivity
                ‣ MainActivity            
 ```
-💡 들어가기전 RecyclerView, Room, Retrofit, Glide에 대해 정리하자면 다음과 같다.
