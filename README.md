@@ -157,6 +157,9 @@ https://developer.android.com/guide/topics/ui/layout/recyclerview-custom?hl=ko
      이때, 프로퍼티의 변수명은 실제 서버에서 사용하는 값과 똑같이 작성해야함!
      만약 앱 내에서 변수명을 다르게 사용하고 싶은 경우 @SerializedName 어노테이션을 사용하면 된다.
      
+     // 약어 DTO 란 data transfer object로 데이터 전송 객체를 의미한다.(data class)
+     // RoomDB 에서 언급되었던 약어 DAO는 data access object로 데이터 접근 객체를 의미한다.(interface)
+     
 2. HTTP 작업을 정의하는 인터페이스 (interface ~Service)
    > GET, POST 등 사용하여 서버에서 받아오거나 서버로 보낸다
 
