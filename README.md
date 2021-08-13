@@ -244,7 +244,55 @@ https://developer.android.com/guide/topics/ui/layout/recyclerview-custom?hl=ko
 ```
 + Glide [📌](https://bumptech.github.io/glide/), [📌](https://github.com/bumptech/glide)
 ```KOTLIN
+* 안드로이드에서 이미지를 빠르고 효율적으로 불러올 수 있게 도와주는 bumptech의 라이브러리로
+  사용방법도 간단하고 확장성도 넓어서 안드로이드에서 두루사용하는 라이브러리이다. 
+  비슷한 라이브러리로는 Picaso가 있는데 속도, 성능 면에서 glide가 우위라는 의견이 많다.
+  
+  ImageView에 사진을 띄우고자 하는 여러가지 경우가 있는데
+  안드로이드 앱 안의 drawable폴더의 리소스를 보여주는 경우와,
+  안드로이드 디바이스 안에 저장되어있는 사진을 보여주는 경우(갤러리 등), 그리고
+  이미지 URL을 로드해서 보여주는 경우가 있다.
+  앞선 두가지 경우는 안드로이드 기기 내부 리소스를 불러오는 작업이기 때문에 예외사항도 적고, 구현도 복잡하지 않다.
+  그러나 마지막 경우처럼 이미지의 URL을 불러오는 경우에는 여러가지 고려해야할 사항이 많다.
+  예를들면 로딩 실패시 처리, 재시도 처리, out of memory, 캐시, 병렬처리, 디코딩, 이미지 재활용 등등..
+  이를 위해 HTTP를 통한 이미지 로딩시 안정적으로 처리하기위한 라이브러리로 Glide를 많이 사용한다.
+  
+  
+  
+* 사용방법은 정말 간단하다.
+1. build.gradle에 라이브러리 추가 
+implementation 'com.github.bumptech.glide:glide:4.12.0'
 
+2. 외부로부터(HTTP) 이미지를 가져오는 경우 Manifest에 인터넷권한 추가
+<uses-permission android:name="android.permission.INTERNET"/>
+
+3. 뷰에 이미지 로드하기
+특별한 옵션없이 단순하게 ImageView에 이미지를 할당하는 것이라면 with(), load(), into()로 표현이 가능하다.
+(아래 예시는 리사이클러뷰 어뎁터에서 사용한 모습이며 retrofit을 통해 받아온 이미지 URL을 load 하는 모습이다. + viewbinding 사용)
+Glide
+   .with(binding.coverImageView.context)
+   .load(bookModel.coverSmallUrl)
+   .into(binding.coverImageView)
+
+   // load 안에는 꼭 URL이 들어가야하는것이 아니라 uri, drawble 등도 사용이 가능하다.
+  
+* 주요 함수 : 괄호안에 들어갈 내용
+with() : View, Fragment 또는 Activity로 부터 Context를 가져온다. (보통 this)
+load() : 이미지를 로드한다.(Bitmap, Drawable, String, Uri, File, ResourID, ByteArray 등)         
+into() : 이미지를 보여줄 View를 지정한다.
+
+위 세개가 뼈대가되는 함수들이며 추가적으로 다음의 경우의 처리도 가능하다.
+
+placeholder() : Glide로 이미지 로딩을 시작하기 전에 보여줄 이미지 설정 
+                ex) .placeholder(R.drawable.loading)
+error() : 이미지리소스를 불러오는데 에러가 발생할 경우 보여줄 이미지 설정
+          ex) .error(R.drawable.error)
+fallback() : 로드할 이미지 Url이 null인 경우 혹은 비어있는 경우 보여줄 이미지 설정
+skipMemoryCache() : 메모리에 캐싱하지 않으려면 true로 설정
+diskCacheStrategy() : 디스크에 캐싱하지 않으려면 DiskCacheStrategy.NONE로 설정
+asGif() : gif 이미지 불러오기
+override() : 이미지 사이즈 
+             ex) .override(600, 300)
 ```
 + 이전에 진행한 프로젝트에서 정리한 RoomDB [🥕](https://github.com/h0keun/Calculator)
 + RoomDB migration [📌](https://developer.android.com/training/data-storage/room/migrating-db-versions?hl=ko)
