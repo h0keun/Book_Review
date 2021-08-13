@@ -151,13 +151,6 @@ https://developer.android.com/guide/topics/ui/layout/recyclerview-custom?hl=ko
   
   사용시, build.gradle에 라이브러리를 추가하고 Manifest에 인터넷권한을 추가해야한다.
   
-  
-* 기본 개념
-1. 어떤 주소로 요청을 보내야 하나?
-2. 어떤 형태로 응답을 받나?
-3. 어떤 형태로 요청을 하나?
-4. 어떤 파라미터를 가지고 요청을 하나?
-
 * 주요 클래스
 1. JSON 형태의 모델 클래스 (data class ~Dto)
    > 서버 통신시 request body 또는 response body에서 사용할 Json 형태의 모델 클래스를 작성
@@ -169,6 +162,85 @@ https://developer.android.com/guide/topics/ui/layout/recyclerview-custom?hl=ko
 
 3. Retrofit.Builder() 를 선언한 클래스 (baseUrl, addConverterFactory 등을 선언) 
    > 인터페이스는 구현체가 아니라 동작의 정의만 되어있는것이기 때문에, 클래스에서 따로 구현체를 만들어줘야 한다.
+   
+// 사용순서는 위에 언급한 내용들을 매칭시키면서 확인해볼것! //
+
+* 사용순서
+1. build.gradle에 라이브러리 추가 
+   : implementation 'com.squareup.retrofit2:retrofit:2.9.0' // 레트로핏 (필수)
+     implementation 'com.squareup.retrofit2:converter-gson:2.9.0' // 컨버터 (선택)
+
+2. Manifest에 인터넷사용권한 추가
+   : <uses-permission android:name="android.permission.INTERNET"/>
+
+3. Retrofit 객체 생성
+   : Retrofit을 사용하기위해 Retrofit객체를 생성해야하는데, 보통 메서드를 선언해두고 재사용한다.
+     빅더 객체를 생성하고 필요한 설정사항을 추가해서 빌드한다.
+     * baseUrl은 URL호출시 반복을 줄여주는 역할을 하는데,
+       사이트 주소를 보면 대게 www.~~.com/ 까지는 고정이고 /이후 부분이 변하는 부분이기 때문에
+       변하는 부분을 제외한 /앞쪽 www.~~.com/ 까지를 baseUrl로 세팅한다.
+     * addConverterFactory는 HTTP통신시에 주고받는 데이터 형태를 변환시켜주는 컨버터를 지정하는 설정이다.
+       Gson, Jacson 등 다양한데 본 프로젝트에서는 Gson컨버터를 지정하였다.
+     
+4. 서비스 클래스 생성
+   : 여기서말하는 Service는 레트로핏의 용어를 지칭하는데, 
+     Retrofit에서 Service는 API를 정의하는 인터페이스를 말한다.
+     
+     인터페이스로 선언하기 때문에 구현할 필요는 없고 어떤 형태와 방식으로 통신하는지를 
+     어노테이션과 파라미터로 지정하면 Retrofit이 알아서 구현해준다.
+     
+     Service는 기본적으로 Call<T> 객체를 반환한다.
+     (본 프로젝트에서는 Call<SearchBookDto> 과 Call<BestSellerDto> 반환) 
+     만약 서버의 API가 String을 반환한다고 가정하면 클라이언트는 Retrofit을 통해 Call<String>을 받게 되는 것이며, 
+     일반적으로는 JSON 형태의 모델 클래스 (data class ~Dto) 를 통해 받는다.
+     
+5. Retrofit - Service 연결하기 (Call<T> 객체 얻기 및 사용하기)
+   : 3. 과정에서 Retrofit객체를 만들었으면 클라이언트와 서버가 통신할 통로가 열린 상태라고 볼 수 있다.
+     본 프로젝트에서는 객체 생성이후에 바로 아래와 같은 코드를 MainActivity상에 입력하여,
+     Call<T>객체를 바로 사용하였다. 
+     
+     bookService = retrofit.create(BookService::class.java)
+
+     bookService.getBestSellerBooks(getString(R.string.interParkAPIKey))
+         .enqueue(object : Callback<BestSellerDto> {
+
+             override fun onResponse(
+                 call: Call<BestSellerDto>,
+                 response: Response<BestSellerDto>
+             ) {
+                 // todo 성공처리
+
+                 if (response.isSuccessful.not()) {
+                     return
+                 }
+                 response.body()?.let {
+                     Log.d(TAG, it.toString())
+
+                     it.books.forEach { book ->
+                         Log.d(TAG, book.toString())
+                     }
+                     adapter.submitList(it.books)
+                 }
+             }
+
+             override fun onFailure(call: Call<BestSellerDto>, t: Throwable) {
+                 // todo 실패처리
+             }
+        })
+  
+   * 하지만, 실제 개발시에는 재사용성을 높이고 유지보수를 편하게 하기위해
+     MVVM 패턴을 적용하여 중간 매개체 역할을 하는 클래스인 Repository를 만들어두고,
+     필요에 따른 Retrofit 생성 메서드를 저장한다고 한다!!
+     (https://kyome.tistory.com/148 이 링크를 참조하자!)
+     
+   Call<T> 객체의 사용은 다음과 같다.
+   Call<T> 는 인터페이스이며, Call인터페이스는 enqueue(Callback<T> callback) 메서드를 가지고 있어야 한다.
+   그러므로 통신을 한 후에 받은 Call<T>객체는 enqueue가 구현된 상태 라고 볼 수 있다.
+   
+   이를통해 받은 통신의 결과에 대한 후처리를 할 수 있다.
+   Retrofit은 통신의 결과에 따라 파라미터로 받는 Callback의 메서드를 실행해준다.
+   성공시 onResponse를 실행하고, 실패시 onFailure를 실행한다.
+  
 ```
 + Glide [📌](https://bumptech.github.io/glide/), [📌](https://github.com/bumptech/glide)
 ```KOTLIN
@@ -176,6 +248,10 @@ https://developer.android.com/guide/topics/ui/layout/recyclerview-custom?hl=ko
 ```
 + 이전에 진행한 프로젝트에서 정리한 RoomDB [🥕](https://github.com/h0keun/Calculator)
 + RoomDB migration [📌](https://developer.android.com/training/data-storage/room/migrating-db-versions?hl=ko)
+
+
+💡 본 프로젝트를 리뷰하기위한 사전지식들은 위에 짤막하게 정리하였으니  
+   위 개념들을 토대로 아래에 프로젝트를 다시한번 살펴보며 리뷰하겠따!  
 
 #### ◼ kotlin.class
 ```KOTLIN
